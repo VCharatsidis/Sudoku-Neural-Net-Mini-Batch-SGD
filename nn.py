@@ -110,30 +110,34 @@ reducer_6 = SolvedSudoku(other6, hardestSudoku_fixed)
 reducer_7 = SolvedSudoku(other7, hardestSudoku_fixed)
 
 reducers.append(reducer_hard)
-reducers.append(reducer_hard)
-reducers.append(reducer_hard)
-reducers.append(reducer_hard)
-reducers.append(reducer_hard)
-reducers.append(reducer_hard)
-reducers.append(reducer_hard)
-reducers.append(reducer_hard)
 
-# reducers.append(reducer_1)
-# reducers.append(reducer_2)
-# reducers.append(reducer_3)
-# reducers.append(reducer_4)
-# reducers.append(reducer_5)
-# reducers.append(reducer_6)
-# reducers.append(reducer_7)
+# reducers.append(reducer_hard)
+# reducers.append(reducer_hard)
+# reducers.append(reducer_hard)
+# reducers.append(reducer_hard)
+# reducers.append(reducer_hard)
+# reducers.append(reducer_hard)
+# reducers.append(reducer_hard)
 
-nodes1 = 128
-nodes2 = 64
+reducers.append(reducer_1)
+reducers.append(reducer_2)
+reducers.append(reducer_3)
+reducers.append(reducer_4)
+reducers.append(reducer_5)
+reducers.append(reducer_6)
+reducers.append(reducer_7)
+
+nodes1 = 32
+nodes2 = 32
 nodes3 = 32
-# nodes4 = 32
-# nodes5 = 32
+nodes4 = 32
+nodes5 = 32
+nodes6 = 32
+nodes7 = 32
+nodes8 = 32
 
 batch_size = 128
-numbers_to_predict = 30
+numbers_to_predict = 10
 
 x = tf.placeholder("float32", [None, 810], name="reducedBoards")
 y = tf.placeholder("float32", [None, numbers_to_predict*10], name="solutions")
@@ -149,13 +153,22 @@ def nnmodel(data):
     hl3 = {'weights': tf.Variable(tf.random_normal([nodes2, nodes3])),
        'biases': tf.Variable(tf.random_normal([nodes3]))}
 
-    # hl4 = {'weights': tf.Variable(tf.random_normal([nodes3, nodes4])),
-    #        'biases': tf.Variable(tf.random_normal([nodes4]))}
-    #
-    # hl5 = {'weights': tf.Variable(tf.random_normal([nodes4, nodes5])),
-    #        'biases': tf.Variable(tf.random_normal([nodes5]))}
+    hl4 = {'weights': tf.Variable(tf.random_normal([nodes3, nodes4])),
+           'biases': tf.Variable(tf.random_normal([nodes4]))}
 
-    output_layer = {'weights': tf.Variable(tf.random_normal([nodes3, numbers_to_predict*10])),
+    hl5 = {'weights': tf.Variable(tf.random_normal([nodes4, nodes5])),
+           'biases': tf.Variable(tf.random_normal([nodes5]))}
+
+    hl6 = {'weights': tf.Variable(tf.random_normal([nodes5, nodes6])),
+           'biases': tf.Variable(tf.random_normal([nodes6]))}
+
+    hl7 = {'weights': tf.Variable(tf.random_normal([nodes6, nodes7])),
+           'biases': tf.Variable(tf.random_normal([nodes7]))}
+
+    hl8 = {'weights': tf.Variable(tf.random_normal([nodes7, nodes8])),
+           'biases': tf.Variable(tf.random_normal([nodes8]))}
+
+    output_layer = {'weights': tf.Variable(tf.random_normal([nodes8, numbers_to_predict*10])),
                     'biases': tf.Variable(tf.random_normal([numbers_to_predict*10]))}
 
     lay1 = tf.matmul(data, hl1['weights']) + hl1['biases']
@@ -167,13 +180,22 @@ def nnmodel(data):
     lay3 = tf.matmul(lay2, hl3['weights']) + hl3['biases']
     lay3 = tf.nn.sigmoid(lay3)
 
-    # lay4 = tf.matmul(lay3, hl4['weights']) + hl4['biases']
-    # lay4 = tf.nn.sigmoid(lay4)
-    #
-    # lay5 = tf.matmul(lay4, hl5['weights']) + hl5['biases']
-    # lay5 = tf.nn.sigmoid(lay5)
+    lay4 = tf.matmul(lay3, hl4['weights']) + hl4['biases']
+    lay4 = tf.nn.sigmoid(lay4)
 
-    output = tf.matmul(lay3, output_layer['weights']) + output_layer['biases']
+    lay5 = tf.matmul(lay4, hl5['weights']) + hl5['biases']
+    lay5 = tf.nn.sigmoid(lay5)
+
+    lay6 = tf.matmul(lay5, hl6['weights']) + hl6['biases']
+    lay6 = tf.nn.sigmoid(lay6)
+
+    lay7 = tf.matmul(lay6, hl7['weights']) + hl7['biases']
+    lay7 = tf.nn.sigmoid(lay7)
+
+    lay8 = tf.matmul(lay7, hl8['weights']) + hl8['biases']
+    lay8 = tf.nn.sigmoid(lay8)
+
+    output = tf.matmul(lay8, output_layer['weights']) + output_layer['biases']
 
     print("hi")
     print(output.shape)
@@ -198,7 +220,7 @@ def next_batch():
     batch_y = []
 
     num_reducers = len(reducers)
-    num_per_board = batch_size / num_reducers
+    num_per_board = batch_size // num_reducers
 
     #num_per_board * len(reducers) = batch_size = 128
     for i in range(num_per_board):
