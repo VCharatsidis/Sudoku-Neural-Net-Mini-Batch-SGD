@@ -1,13 +1,6 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Aug  7 16:07:23 2018
-
-@author: vcharatsidis
-"""
 import tensorflow as tf
 import numpy as np
 from Sudoku import SolvedSudoku
-
 
 hardestSudoku = [[8, 1, 2, 7, 5, 3, 6, 4, 9],
                  [9, 4, 3, 6, 8, 2, 1, 7, 5],
@@ -89,26 +82,6 @@ other7 = [[2, 4, 8, 3, 9, 5, 7, 1, 6],
           [1, 9, 5, 2, 8, 6, 4, 3, 7],
           [4, 2, 7, 9, 5, 3, 8, 6, 1]]
 
-test1 = [[2, 3, 7, 6, 9, 1, 5, 8, 4],
-         [8, 1, 5, 3, 7, 4, 9, 2, 6],
-         [6, 4, 9, 2, 5, 8, 3, 7, 1],
-         [9, 8, 2, 5, 6, 7, 1, 4, 3],
-         [5, 6, 3, 4, 1, 2, 7, 9, 8],
-         [4, 7, 1, 8, 3, 9, 2, 6, 5],
-         [7, 9, 6, 1, 4, 3, 8, 5, 2],
-         [3, 5, 8, 7, 2, 6, 4, 1, 9],
-         [1, 2, 4, 9, 8, 5, 6, 3, 7]]
-
-test2 = [[1, 3, 6, 2, 5, 9, 7, 4, 8],
-         [7, 2, 5, 4, 1, 8, 9, 3, 6],
-         [4, 8, 9, 3, 6, 7, 1, 5, 2],
-         [3, 6, 4, 7, 8, 5, 2, 1, 9],
-         [5, 1, 8, 6, 9, 2, 3, 7, 4],
-         [9, 7, 2, 1, 3, 4, 6, 8, 5],
-         [2, 4, 1, 5, 7, 6, 8, 9, 3],
-         [8, 5, 3, 9, 2, 1, 4, 6, 7],
-         [6, 9, 7, 8, 4, 3, 5, 2, 1]]
-
 hardestSudoku_fixed = [[True, False, False, False, False, False, False, False, False],
                        [False, False, True, True, False, False, False, False, False],
                        [False, True, False, False, True, False, True, False, False],
@@ -118,10 +91,6 @@ hardestSudoku_fixed = [[True, False, False, False, False, False, False, False, F
                        [False, False, True, False, False, False, False, True, True],
                        [False, False, True, True, False, False, False, True, False],
                        [False, True, False, False, False, False, True, False, False]]
-
-test_reducers = []
-test_reducer_1 = SolvedSudoku(test1, hardestSudoku_fixed)
-test_reducer_2 = SolvedSudoku(test2, hardestSudoku_fixed)
 
 reducers = []
 reducer_hard = SolvedSudoku(hardestSudoku, hardestSudoku_fixed)
@@ -151,80 +120,15 @@ reducers.append(reducer_5)
 reducers.append(reducer_6)
 reducers.append(reducer_7)
 
-nodes1 = 512
-nodes2 = 512
-nodes3 = 512
-nodes4 = 256
-nodes5 = 256
-nodes6 = 256
-nodes7 = 256
-nodes8 = 256
-
-batch_size = 128
 numbers_to_predict = 10
+batch_size = 128
+
+sess = tf.InteractiveSession()
 
 x = tf.placeholder("float32", [None, 810], name="reducedBoards")
 y = tf.placeholder("float32", [None, numbers_to_predict*10], name="solutions")
 
-
-def nnmodel(data):
-    hl1 = {'weights': tf.Variable(tf.random_normal([810, nodes1])),
-           'biases': tf.Variable(tf.random_normal([nodes1]))}
-
-    hl2 = {'weights': tf.Variable(tf.random_normal([nodes1, nodes2])),
-           'biases': tf.Variable(tf.random_normal([nodes2]))}
-
-    hl3 = {'weights': tf.Variable(tf.random_normal([nodes2, nodes3])),
-           'biases': tf.Variable(tf.random_normal([nodes3]))}
-
-    hl4 = {'weights': tf.Variable(tf.random_normal([nodes3, nodes4])),
-           'biases': tf.Variable(tf.random_normal([nodes4]))}
-
-    hl5 = {'weights': tf.Variable(tf.random_normal([nodes4, nodes5])),
-           'biases': tf.Variable(tf.random_normal([nodes5]))}
-
-    hl6 = {'weights': tf.Variable(tf.random_normal([nodes5, nodes6])),
-           'biases': tf.Variable(tf.random_normal([nodes6]))}
-
-    hl7 = {'weights': tf.Variable(tf.random_normal([nodes6, nodes7])),
-           'biases': tf.Variable(tf.random_normal([nodes7]))}
-
-    hl8 = {'weights': tf.Variable(tf.random_normal([nodes7, nodes8])),
-           'biases': tf.Variable(tf.random_normal([nodes8]))}
-
-    output_layer = {'weights': tf.Variable(tf.random_normal([nodes8, numbers_to_predict*10])),
-                    'biases': tf.Variable(tf.random_normal([numbers_to_predict*10]))}
-
-    lay1 = tf.matmul(data, hl1['weights']) + hl1['biases']
-    lay1 = tf.nn.sigmoid(lay1)
-
-    lay2 = tf.matmul(lay1, hl2['weights']) + hl2['biases']
-    lay2 = tf.nn.sigmoid(lay2)
-
-    lay3 = tf.matmul(lay2, hl3['weights']) + hl3['biases']
-    lay3 = tf.nn.sigmoid(lay3)
-
-    lay4 = tf.matmul(lay3, hl4['weights']) + hl4['biases']
-    lay4 = tf.nn.sigmoid(lay4)
-
-    lay5 = tf.matmul(lay4, hl5['weights']) + hl5['biases']
-    lay5 = tf.nn.sigmoid(lay5)
-
-    lay6 = tf.matmul(lay5, hl6['weights']) + hl6['biases']
-    lay6 = tf.nn.sigmoid(lay6)
-
-    lay7 = tf.matmul(lay6, hl7['weights']) + hl7['biases']
-    lay7 = tf.nn.sigmoid(lay7)
-
-    lay8 = tf.matmul(lay7, hl8['weights']) + hl8['biases']
-    lay8 = tf.nn.sigmoid(lay8)
-
-    output = tf.matmul(lay8, output_layer['weights']) + output_layer['biases']
-
-    print("hi")
-    print(output.shape)
-
-    return output
+x_board = tf.reshape(x, [-1, 9, 90, 1], name="x_board")
 
 def one_hot(array):
     targets = np.array(np.asarray(array).reshape(-1))
@@ -238,26 +142,6 @@ def prepare_data(x, reshape_num):
     x_final = np.asarray(x_reshaped)
 
     return x_final
-
-def test_batch():
-    batch_x = []
-    batch_y = []
-
-    num_reducers = len(test_reducers)
-    num_per_board = batch_size // num_reducers
-
-    # num_per_board * len(reducers) = batch_size = 128
-    for i in range(num_per_board):
-        for red in range(len(test_reducers)):
-            xs = test_reducers[red].board_to_row(test_reducers[red].board_reduction(numbers_to_predict))
-            x_prepared = prepare_data(xs, 810)
-            batch_x.append(x_prepared)
-
-            ys = test_reducers[red].solution
-            y_prepared = prepare_data(ys, numbers_to_predict * 10)
-            batch_y.append(y_prepared)
-
-    return np.asarray(batch_x), np.asarray(batch_y)
 
 def next_batch():
     batch_x = []
@@ -280,32 +164,73 @@ def next_batch():
     return np.asarray(batch_x), np.asarray(batch_y)
 
 
-def train_nn(x):
-    prediction = nnmodel(x)
+def weight_variable(shape):
+    initial = tf.truncated_normal(shape, stddev=0.1)
+    return tf.Variable(initial)
 
-    cost = tf.losses.mean_squared_error(labels=y, predictions=prediction)   # 0.4-0.6
-    # cost = tf.losses.absolute_difference(labels = y, predictions = prediction) 0.4-0.8
-    # cost = tf.losses.log_loss(labels = y, predictions = prediction) nan
+def bias_variable(shape):
+    initial = tf.constant(0.1, shape=shape)
+    return tf.Variable(initial)
 
-    optimizer = tf.train.AdamOptimizer().minimize(cost)
+def conv2d(x, W):
+    return tf.nn.conv2d(x, W, strides=[1, 3, 30, 1], padding='SAME')
 
-    with tf.Session() as sess:
-        sess.run(tf.initialize_all_variables())
+def max_pool_2x2(x):
+    return tf.nn.max_pool(x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
 
-        for i in range(500001):
-            b_x, b_y = next_batch()
-            _, c = sess.run([optimizer, cost], feed_dict={x: b_x, y: b_y})
+#Define layers in the NN
 
-            if i % 1000 == 0:
-                print("iteration : " + str(i) + ", cost : " + str(c))
+#Layer 1
+W_conv1 = weight_variable([3 ,30 ,1, 1])
+b_conv1 = bias_variable([1])
 
+conv1 = tf.nn.relu(conv2d(x_board, W_conv1) + b_conv1)
+#pool1 = max_pool_2x2(conv1)
 
-        for i in range(11):
-            b_x, b_y = test_batch()
+# #Layer 2
+# W_conv2 = weight_variable([5, 5, 32, 64])
+# b_conv2 = bias_variable([64])
+#
+# conv2 = tf.nn.relu(conv2d(pool1, W_conv2) + b_conv2)
+# pool2 = max_pool_2x2(conv2)
 
-            accuracy = tf.losses.mean_squared_error(labels=y, predictions=prediction)
-            test_accuracy = sess.run(accuracy, feed_dict={x: b_x, y: b_y})
+#Fully Connected Layer
+#W_dense = weight_variable([7 * 7 * 64, 1024])
+W_dense = weight_variable([3 * 3 * 1, 1024])
+b_dense = bias_variable([1024])
 
-            print("iteration  : " + str(i) + ", test_accuracy : " + str(test_accuracy))
+#Connect pool2 with fully_connected
+#pool2 = tf.reshape(pool2, [-1, 7 * 7 * 64])
+conv1 = tf.reshape(conv1, [-1, 3 * 3 * 1])
+dense = tf.nn.sigmoid(tf.matmul(conv1, W_dense) + b_dense)
 
-train_nn(x)
+#Readout layer
+W_output = weight_variable(([1024, numbers_to_predict*10]))
+b_output = bias_variable([numbers_to_predict*10])
+
+y_conv = tf.matmul(dense, W_output) + b_output
+
+#Loss
+cost = tf.losses.mean_squared_error(labels=y, predictions=y_conv)
+#Optimizer
+optimizer = tf.train.AdamOptimizer().minimize(cost)
+
+sess.run(tf.global_variables_initializer())
+
+import time
+
+num_steps = 3000
+display_every = 100
+
+#Start timer
+start_time = time.time()
+end_time = time.time()
+
+for i in range(num_steps):
+    b_x, b_y = next_batch()
+
+    _, cost = sess.run([optimizer, cost], feed_dict={x: b_x, y: b_y})
+
+    if i % display_every == 0:
+        print("iteration : " + str(i)+" cost : " + str(cost))
+
