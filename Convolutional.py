@@ -173,18 +173,35 @@ def bias_variable(shape):
     return tf.Variable(initial)
 
 def conv2d(x, W):
-    return tf.nn.conv2d(x, W, strides=[1, 3, 30, 1], padding='SAME')
+    return
 
 def max_pool_2x2(x):
     return tf.nn.max_pool(x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
 
 #Define layers in the NN
 
-#Layer 1
-W_conv1 = weight_variable([3 ,30 ,1, 1])
-b_conv1 = bias_variable([1])
+#Box filter
+W_box = weight_variable([3, 30, 1, 1])
+b_box = bias_variable([1])
 
-conv1 = tf.nn.relu(conv2d(x_board, W_conv1) + b_conv1)
+# #Row filter
+# W_row = weight_variable([1, 90, 1, 1])
+# b_row = bias_variable([1])
+#
+# #Column filter
+# W_column = weight_variable(([90, 1, 1, 1]))
+# b_column = bias_variable([1])
+
+conv1_box = tf.nn.relu(tf.nn.conv2d(x_board, W_box, strides=[1, 3, 30, 1], padding='SAME') + b_box)
+# conv1_row = tf.nn.relu(tf.nn.conv2d(x_board, W_row, strides=[1, 1, 9, 1], padding='SAME') + b_row)
+# conv1_column = tf.nn.relu(tf.nn.conv2d(x_board, W_column, strides=[1, 9, 1, 1], padding='SAME') + b_column)
+#
+# conv1_box = tf.reshape(conv1_box, [-1, 3 * 3 * 1])
+# conv1_row = tf.reshape(conv1_row, [-1, 3 * 3 * 1])
+# conv1_column = tf.reshape(conv1_column, [-1, 3 * 3 * 1])
+
+conv1 = conv1_box
+
 #pool1 = max_pool_2x2(conv1)
 
 # #Layer 2
@@ -219,8 +236,8 @@ sess.run(tf.global_variables_initializer())
 
 import time
 
-num_steps = 3000
-display_every = 100
+num_steps = 500000
+display_every = 1000
 
 #Start timer
 start_time = time.time()
@@ -229,8 +246,9 @@ end_time = time.time()
 for i in range(num_steps):
     b_x, b_y = next_batch()
 
-    _, cost = sess.run([optimizer, cost], feed_dict={x: b_x, y: b_y})
+    optimizer.run(feed_dict={x: b_x, y: b_y})
+    cost1 = cost.eval(feed_dict={x: b_x, y: b_y})
 
     if i % display_every == 0:
-        print("iteration : " + str(i)+" cost : " + str(cost))
+        print("iteration : " + str(i)+" cost : " + str(cost1))
 

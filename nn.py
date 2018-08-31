@@ -19,146 +19,18 @@ hardestSudoku = [[8, 1, 2, 7, 5, 3, 6, 4, 9],
                  [4, 3, 8, 5, 2, 6, 9, 1, 7],
                  [7, 9, 6, 3, 1, 8, 4, 5, 2]]
 
-other1 = [[5, 3, 4, 6, 7, 8, 9, 1, 2],
-          [6, 7, 2, 1, 9, 5, 3, 4, 8],
-          [1, 9, 8, 3, 4, 2, 5, 6, 7],
-          [8, 5, 9, 7, 6, 1, 4, 2, 3],
-          [4, 2, 6, 8, 5, 3, 7, 9, 1],
-          [7, 1, 3, 9, 2, 4, 8, 5, 6],
-          [9, 6, 1, 5, 3, 7, 2, 8, 4],
-          [2, 8, 7, 4, 1, 9, 6, 3, 5],
-          [3, 4, 5, 2, 8, 6, 1, 7, 9]]
 
-other2 = [[7, 3, 5, 6, 1, 4, 8, 9, 2],
-          [8, 4, 2, 9, 7, 3, 5, 6, 1],
-          [9, 6, 1, 2, 8, 5, 3, 7, 4],
-          [2, 8, 6, 3, 4, 9, 1, 5, 7],
-          [4, 1, 3, 8, 5, 7, 9, 2, 6],
-          [5, 7, 9, 1, 2, 6, 4, 3, 8],
-          [1, 5, 7, 4, 9, 2, 6, 8, 3],
-          [6, 9, 4, 7, 3, 8, 2, 1, 5],
-          [3, 2, 8, 5, 6, 1, 7, 4, 9]]
+reducer = SolvedSudoku(2000)
+test_reducer = SolvedSudoku(1)
 
-other3 = [[2, 9, 5, 7, 4, 3, 8, 6, 1],
-          [4, 3, 1, 8, 6, 5, 9, 2, 7],
-          [8, 7, 6, 1, 9, 2, 5, 4, 3],
-          [3, 8, 7, 4, 5, 9, 2, 1, 6],
-          [6, 1, 2, 3, 8, 7, 4, 9, 5],
-          [5, 4, 9, 2, 1, 6, 7, 3, 8],
-          [7, 6, 3, 5, 2, 4, 1, 8, 9],
-          [9, 2, 8, 6, 7, 1, 3, 5, 4],
-          [1, 5, 4, 9, 3, 8, 6, 7, 2]]
-
-other4 = [[8, 2, 7, 1, 5, 4, 3, 9, 6],
-          [9, 6, 5, 3, 2, 7, 1, 4, 8],
-          [3, 4, 1, 6, 8, 9, 7, 5, 2],
-          [5, 9, 3, 4, 6, 8, 2, 7, 1],
-          [4, 7, 2, 5, 1, 3, 6, 8, 9],
-          [6, 1, 8, 9, 7, 2, 4, 3, 5],
-          [7, 8, 6, 2, 3, 5, 9, 1, 4],
-          [1, 5, 4, 7, 9, 6, 8, 2, 3],
-          [2, 3, 9, 8, 4, 1, 5, 6, 7]]
-
-other5 = [[4, 8, 9, 3, 1, 5, 2, 6, 7],
-          [1, 6, 2, 4, 9, 7, 3, 5, 8],
-          [3, 5, 7, 2, 8, 6, 9, 1, 4],
-          [8, 9, 5, 6, 3, 1, 4, 7, 2],
-          [6, 2, 1, 7, 4, 8, 5, 9, 3],
-          [7, 4, 3, 5, 2, 9, 1, 8, 6],
-          [9, 1, 4, 8, 7, 3, 6, 2, 5],
-          [2, 7, 6, 1, 5, 4, 8, 3, 9],
-          [5, 3, 8, 9, 6, 2, 7, 4, 1]]
-
-other6 = [[1, 5, 2, 4, 8, 9, 3, 7, 6],
-          [7, 3, 9, 2, 5, 6, 8, 4, 1],
-          [4, 6, 8, 3, 7, 1, 2, 9, 5],
-          [3, 8, 7, 1, 2, 4, 6, 5, 9],
-          [5, 9, 1, 7, 6, 3, 4, 2, 8],
-          [2, 4, 6, 8, 9, 5, 7, 1, 3],
-          [9, 1, 4, 6, 3, 7, 5, 8, 2],
-          [6, 2, 5, 9, 4, 8, 1, 3, 7],
-          [8, 7, 3, 5, 1, 2, 9, 6, 4]]
-
-other7 = [[2, 4, 8, 3, 9, 5, 7, 1, 6],
-          [5, 7, 1, 6, 2, 8, 3, 4, 9],
-          [9, 3, 6, 7, 4, 1, 5, 8, 2],
-          [6, 8, 2, 5, 3, 9, 1, 7, 4],
-          [3, 5, 9, 1, 7, 4, 6, 2, 8],
-          [7, 1, 4, 8, 6, 2, 9, 5, 3],
-          [8, 6, 3, 4, 1, 7, 2, 9, 5],
-          [1, 9, 5, 2, 8, 6, 4, 3, 7],
-          [4, 2, 7, 9, 5, 3, 8, 6, 1]]
-
-test1 = [[2, 3, 7, 6, 9, 1, 5, 8, 4],
-         [8, 1, 5, 3, 7, 4, 9, 2, 6],
-         [6, 4, 9, 2, 5, 8, 3, 7, 1],
-         [9, 8, 2, 5, 6, 7, 1, 4, 3],
-         [5, 6, 3, 4, 1, 2, 7, 9, 8],
-         [4, 7, 1, 8, 3, 9, 2, 6, 5],
-         [7, 9, 6, 1, 4, 3, 8, 5, 2],
-         [3, 5, 8, 7, 2, 6, 4, 1, 9],
-         [1, 2, 4, 9, 8, 5, 6, 3, 7]]
-
-test2 = [[1, 3, 6, 2, 5, 9, 7, 4, 8],
-         [7, 2, 5, 4, 1, 8, 9, 3, 6],
-         [4, 8, 9, 3, 6, 7, 1, 5, 2],
-         [3, 6, 4, 7, 8, 5, 2, 1, 9],
-         [5, 1, 8, 6, 9, 2, 3, 7, 4],
-         [9, 7, 2, 1, 3, 4, 6, 8, 5],
-         [2, 4, 1, 5, 7, 6, 8, 9, 3],
-         [8, 5, 3, 9, 2, 1, 4, 6, 7],
-         [6, 9, 7, 8, 4, 3, 5, 2, 1]]
-
-hardestSudoku_fixed = [[True, False, False, False, False, False, False, False, False],
-                       [False, False, True, True, False, False, False, False, False],
-                       [False, True, False, False, True, False, True, False, False],
-                       [False, True, False, False, False, True, False, False, False],
-                       [False, False, False, False, True, True, True, False, False],
-                       [False, False, False, True, False, False, False, True, False],
-                       [False, False, True, False, False, False, False, True, True],
-                       [False, False, True, True, False, False, False, True, False],
-                       [False, True, False, False, False, False, True, False, False]]
-
-test_reducers = []
-test_reducer_1 = SolvedSudoku(test1, hardestSudoku_fixed)
-test_reducer_2 = SolvedSudoku(test2, hardestSudoku_fixed)
-
-reducers = []
-reducer_hard = SolvedSudoku(hardestSudoku, hardestSudoku_fixed)
-reducer_1 = SolvedSudoku(other1, hardestSudoku_fixed)
-reducer_2 = SolvedSudoku(other2, hardestSudoku_fixed)
-reducer_3 = SolvedSudoku(other3, hardestSudoku_fixed)
-reducer_4 = SolvedSudoku(other4, hardestSudoku_fixed)
-reducer_5 = SolvedSudoku(other5, hardestSudoku_fixed)
-reducer_6 = SolvedSudoku(other6, hardestSudoku_fixed)
-reducer_7 = SolvedSudoku(other7, hardestSudoku_fixed)
-
-reducers.append(reducer_hard)
-
-# reducers.append(reducer_hard)
-# reducers.append(reducer_hard)
-# reducers.append(reducer_hard)
-# reducers.append(reducer_hard)
-# reducers.append(reducer_hard)
-# reducers.append(reducer_hard)
-# reducers.append(reducer_hard)
-
-reducers.append(reducer_1)
-reducers.append(reducer_2)
-reducers.append(reducer_3)
-reducers.append(reducer_4)
-reducers.append(reducer_5)
-reducers.append(reducer_6)
-reducers.append(reducer_7)
-
-nodes1 = 512
-nodes2 = 512
-nodes3 = 512
-nodes4 = 256
-nodes5 = 256
-nodes6 = 256
-nodes7 = 256
-nodes8 = 256
+nodes1 = 256
+nodes2 = 128
+nodes3 = 128
+nodes4 = 128
+nodes5 = 128
+nodes6 = 128
+nodes7 = 128
+nodes8 = 128
 
 batch_size = 128
 numbers_to_predict = 10
@@ -243,19 +115,15 @@ def test_batch():
     batch_x = []
     batch_y = []
 
-    num_reducers = len(test_reducers)
-    num_per_board = batch_size // num_reducers
+    #num_per_board * len(reducers) = batch_size = 128
+    for i in range(batch_size):
+        xs, ys = test_reducer.board_reduction(numbers_to_predict)
 
-    # num_per_board * len(reducers) = batch_size = 128
-    for i in range(num_per_board):
-        for red in range(len(test_reducers)):
-            xs = test_reducers[red].board_to_row(test_reducers[red].board_reduction(numbers_to_predict))
-            x_prepared = prepare_data(xs, 810)
-            batch_x.append(x_prepared)
+        x_prepared = prepare_data(xs, 810)
+        batch_x.append(x_prepared)
 
-            ys = test_reducers[red].solution
-            y_prepared = prepare_data(ys, numbers_to_predict * 10)
-            batch_y.append(y_prepared)
+        y_prepared = prepare_data(ys, numbers_to_predict*10)
+        batch_y.append(y_prepared)
 
     return np.asarray(batch_x), np.asarray(batch_y)
 
@@ -263,21 +131,21 @@ def next_batch():
     batch_x = []
     batch_y = []
 
-    num_reducers = len(reducers)
-    num_per_board = batch_size // num_reducers
-
     #num_per_board * len(reducers) = batch_size = 128
-    for i in range(num_per_board):
-        for red in range(len(reducers)):
-            xs = reducers[red].board_to_row(reducers[red].board_reduction(numbers_to_predict))
-            x_prepared = prepare_data(xs, 810)
-            batch_x.append(x_prepared)
+    for i in range(batch_size):
+        xs, ys = reducer.board_reduction(numbers_to_predict)
 
-            ys = reducers[red].solution
-            y_prepared = prepare_data(ys, numbers_to_predict*10)
-            batch_y.append(y_prepared)
+        x_prepared = prepare_data(xs, 810)
+        batch_x.append(x_prepared)
+
+        y_prepared = prepare_data(ys, numbers_to_predict*10)
+        batch_y.append(y_prepared)
+
+        #print(xs)
+        #print(ys)
 
     return np.asarray(batch_x), np.asarray(batch_y)
+
 
 
 def train_nn(x):
@@ -298,7 +166,6 @@ def train_nn(x):
 
             if i % 1000 == 0:
                 print("iteration : " + str(i) + ", cost : " + str(c))
-
 
         for i in range(11):
             b_x, b_y = test_batch()
