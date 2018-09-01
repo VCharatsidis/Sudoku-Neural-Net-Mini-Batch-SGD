@@ -184,4 +184,4 @@ for i in range(10):
 
     optimizer.run(feed_dict={x: b_x, y: b_y})
     cost1 = cost.eval(feed_dict={x:b_x, y:b_y})
-    print("cost test : " +str(cost))
+    print("cost test : " + str(cost1))
