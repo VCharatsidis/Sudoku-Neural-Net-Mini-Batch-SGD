@@ -9,16 +9,25 @@ import numpy as np
 from Sudoku import SolvedSudoku
 
 
-hardestSudoku = [[8, 1, 2, 7, 5, 3, 6, 4, 9],
-                 [9, 4, 3, 6, 8, 2, 1, 7, 5],
-                 [6, 7, 5, 4, 9, 1, 2, 8, 3],
-                 [1, 5, 4, 2, 3, 7, 8, 9, 6],
-                 [3, 6, 9, 8, 4, 5, 7, 2, 1],
-                 [2, 8, 7, 1, 6, 9, 5, 3, 4],
-                 [5, 2, 1, 9, 7, 4, 3, 6, 8],
-                 [4, 3, 8, 5, 2, 6, 9, 1, 7],
-                 [7, 9, 6, 3, 1, 8, 4, 5, 2]]
+# hardestSudoku = [[8, 1, 2, 7, 5, 3, 6, 4, 9],
+#                  [9, 4, 3, 6, 8, 2, 1, 7, 5],
+#                  [6, 7, 5, 4, 9, 1, 2, 8, 3],
+#                  [1, 5, 4, 2, 3, 7, 8, 9, 6],
+#                  [3, 6, 9, 8, 4, 5, 7, 2, 1],
+#                  [2, 8, 7, 1, 6, 9, 5, 3, 4],
+#                  [5, 2, 1, 9, 7, 4, 3, 6, 8],
+#                  [4, 3, 8, 5, 2, 6, 9, 1, 7],
+#                  [7, 9, 6, 3, 1, 8, 4, 5, 2]]
 
+# hardestSudoku_fixed = [[True, False, False, False, False, False, False, False, False],
+#                        [False, False, True, True, False, False, False, False, False],
+#                        [False, True, False, False, True, False, True, False, False],
+#                        [False, True, False, False, False, True, False, False, False],
+#                        [False, False, False, False, True, True, True, False, False],
+#                        [False, False, False, True, False, False, False, True, False],
+#                        [False, False, True, False, False, False, False, True, True],
+#                        [False, False, True, True, False, False, False, True, False],
+#                        [False, True, False, False, False, False, True, False, False]]
 
 reducer = SolvedSudoku(2000)
 test_reducer = SolvedSudoku(1)
@@ -27,10 +36,10 @@ nodes1 = 256
 nodes2 = 128
 nodes3 = 128
 nodes4 = 128
-nodes5 = 128
-nodes6 = 128
-nodes7 = 128
-nodes8 = 128
+nodes5 = 64
+nodes6 = 64
+nodes7 = 64
+nodes8 = 64
 
 batch_size = 128
 numbers_to_predict = 10
