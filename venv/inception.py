@@ -95,27 +95,43 @@ def bias_variable(shape):
     return tf.Variable(initial)
 
 
-#Define layers in the NN
-num_filters = 64
-#Box filter
-W = weight_variable([3, 30, 1, num_filters])
-b = bias_variable([num_filters])
+#we have 3 different features, row column box
+num_features = 3
+num_filters = 32
+#Box feature
+W_box = weight_variable([3, 30, 1, num_filters])
+b_box = bias_variable([num_filters])
 
-conv1 = tf.nn.sigmoid(tf.nn.conv2d(x_board, W, strides=[1, 3, 30, 1], padding='SAME') + b)
+#Row feature
+W_row = weight_variable([1, 90, 1, num_filters])
+b_row = bias_variable([num_filters])
+
+#Column feature
+W_column = weight_variable(([9, 10, 1, num_filters]))
+b_column = bias_variable([num_filters])
+
+conv1_box = tf.nn.sigmoid(tf.nn.conv2d(x_board, W_box, strides=[1, 3, 30, 1], padding='SAME') + b_box)
+conv1_row = tf.nn.sigmoid(tf.nn.conv2d(x_board, W_row, strides=[1, 1, 90, 1], padding='SAME') + b_row)
+conv1_column = tf.nn.sigmoid(tf.nn.conv2d(x_board, W_column, strides=[1, 9, 10, 1], padding='SAME') + b_column)
+
+conv1_box = tf.reshape(conv1_box, [-1, 3 * 3 * 1])
+conv1_row = tf.reshape(conv1_row, [-1, 3 * 3 * 1])
+conv1_column = tf.reshape(conv1_column, [-1, 3 * 3 * 1])
+
+print(str(conv1_box.shape))
+print(str(conv1_row.shape))
+print(str(conv1_column.shape))
+
+conv_a = tf.concat([conv1_box, conv1_row], 1)
+conv1 = tf.concat([conv_a, conv1_column], 1)
 
 print(str(conv1.shape))
 
-# w_1x1 = weight_variable([1, 1, 64, 32])
-# b_1x1 = bias_variable([32])
-# conv1x1 = tf.nn.sigmoid(tf.nn.conv2d(conv1, w_1x1, strides=[1, 1, 1, 1], padding='SAME') + b_1x1)
-
 # #Fully Connected Layer
-# W_dense = weight_variable([7 * 7 * 4, 1024])
-W_dense = weight_variable([3 * 3 * num_filters, 1024])
+W_dense = weight_variable([3 * 3 * num_features * num_filters, 1024])
 b_dense = bias_variable([1024])
 
-conv1 = tf.reshape(conv1, [-1, 3 * 3 * num_filters])
-
+conv1 = tf.reshape(conv1, [-1, 3 * 3 * num_features * num_filters])
 dense = tf.nn.sigmoid(tf.matmul(conv1, W_dense) + b_dense)
 
 #Readout layer
@@ -147,7 +163,8 @@ for i in range(num_steps):
     cost1 = cost.eval(feed_dict={x: b_x, y: b_y})
 
     if i % display_every == 0:
-        print("iteration : " + str(i)+" cost : " + str(cost1))
+        end_time = time.time()
+        print("iteration : " + str(i)+", cost : " + str(cost1) + ", time elapsed : " + str(end_time - start_time))
 
 end_time = time.time()
 print("time elapsed : " + str(end_time - start_time))

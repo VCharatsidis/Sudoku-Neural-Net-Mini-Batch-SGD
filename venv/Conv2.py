@@ -2,7 +2,7 @@ import tensorflow as tf
 import numpy as np
 from Sudoku import SolvedSudoku
 
-reducer = SolvedSudoku(200)
+reducer = SolvedSudoku(2000)
 test_reducer = SolvedSudoku(1)
 numbers_to_predict = 10
 batch_size = 128
@@ -102,21 +102,21 @@ def bias_variable(shape):
 # conv1x1 = tf.nn.relu(tf.nn.conv2d(conv1, w_1x1, strides=[1, 1, 1, 1], padding='SAME') + b_1x1)
 
 #Layer 1
-W_conv1 = weight_variable([3, 10, 1, 32])
-b_conv1 = bias_variable([32])
+W_conv1 = weight_variable([3, 10, 1, 8])
+b_conv1 = bias_variable([8])
 
 conv1 = tf.nn.relu(tf.nn.conv2d(x_board, W_conv1, strides=[1, 1, 10, 1], padding='SAME') + b_conv1)
 #pool1 = max_pool_2x2(conv1)
 
 #Layer 2
-W_conv2 = weight_variable([1, 3, 32, 64])
-b_conv2 = bias_variable([64])
+W_conv2 = weight_variable([1, 3, 8, 16])
+b_conv2 = bias_variable([16])
 
 conv2 = tf.nn.relu(tf.nn.conv2d(conv1, W_conv2, strides=[1, 1, 1, 1], padding='SAME') + b_conv2)
 #pool2 = tf.nn.max_pool(conv2, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
 
 #Fully Connected Layer
-W_dense = weight_variable([9 * 9 * 64, 1024])
+W_dense = weight_variable([9 * 9 * 16, 1024])
 #W_dense = weight_variable([3 * 3 * 32, 1024])
 b_dense = bias_variable([1024])
 #
@@ -124,7 +124,7 @@ b_dense = bias_variable([1024])
 # conv2 = tf.reshape(conv2, [-1, 7 * 7 * 4])
 # #pool2 = tf.reshape(pool2, [-1, 7 * 7 * 64])
 # dense = tf.nn.sigmoid(tf.matmul(conv2, W_dense) + b_dense)
-conv2 = tf.reshape(conv2, [-1, 9 * 9 * 64])
+conv2 = tf.reshape(conv2, [-1, 9 * 9 * 16])
 
 dense = tf.nn.sigmoid(tf.matmul(conv2, W_dense) + b_dense)
 
