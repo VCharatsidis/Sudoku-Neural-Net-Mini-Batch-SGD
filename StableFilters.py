@@ -23,8 +23,8 @@ from Sudoku import SolvedSudoku
 #                        [False, True, False, False, False, False, True, False, False]]
 
 
-reducer = SolvedSudoku(50)
-test_reducer = SolvedSudoku(1)
+reducer = SolvedSudoku(2000)
+test_reducer = SolvedSudoku(2000)
 numbers_to_predict = 10
 batch_size = 128
 
@@ -94,33 +94,43 @@ def bias_variable(shape):
     initial = tf.constant(0.1, shape=shape)
     return tf.Variable(initial)
 
-filters = []
-for row in range(9):
-    for col in range(0, 90, 10):
-        W = weight_variable()
-#we have 3 different features, row column box
-# num_features = 3
-# num_filters = 32
-# #Box feature
-# W_box = weight_variable([3, 30, 1, num_filters])
-# b_box = bias_variable([num_filters])
-#
-# #Row feature
-# W_row = weight_variable([1, 90, 1, num_filters])
-# b_row = bias_variable([num_filters])
-#
-# #Column feature
-# W_column = weight_variable(([9, 10, 1, num_filters]))
-# b_column = bias_variable([num_filters])
-#
-# conv1_box = tf.nn.relu(tf.nn.conv2d(x_board, W_box, strides=[1, 3, 30, 1], padding='SAME') + b_box)
-# conv1_row = tf.nn.relu(tf.nn.conv2d(x_board, W_row, strides=[1, 1, 90, 1], padding='SAME') + b_row)
-# conv1_column = tf.nn.relu(tf.nn.conv2d(x_board, W_column, strides=[1, 9, 10, 1], padding='SAME') + b_column)
-#
-# conv1_box = tf.reshape(conv1_box, [-1, 3 * 3 * 1])
-# conv1_row = tf.reshape(conv1_row, [-1, 3 * 3 * 1])
-# conv1_column = tf.reshape(conv1_column, [-1, 3 * 3 * 1])
 
+#we have 3 different features, row column box
+num_features = 3
+num_filters = 32
+#Box feature
+W_box = weight_variable([3, 30, 1, num_filters])
+b_box = bias_variable([num_filters])
+
+#Row feature
+W_row = weight_variable([1, 90, 1, num_filters])
+b_row = bias_variable([num_filters])
+
+#Column feature
+W_column = weight_variable(([9, 10, 1, num_filters]))
+b_column = bias_variable([num_filters])
+
+conv1_box = tf.nn.sigmoid(tf.nn.conv2d(x_board, W_box, strides=[1, 3, 30, 1], padding='SAME') + b_box)
+conv1_row = tf.nn.sigmoid(tf.nn.conv2d(x_board, W_row, strides=[1, 1, 90, 1], padding='SAME') + b_row)
+conv1_column = tf.nn.sigmoid(tf.nn.conv2d(x_board, W_column, strides=[1, 9, 10, 1], padding='SAME') + b_column)
+
+conv1_row = tf.reshape(conv1_row, [-1, 3 * 3 * 1])
+conv1_column = tf.reshape(conv1_column, [-1, 3 * 3 * 1])
+
+x_refined = tf.Variable([9, 27, num_filters])
+
+for row in range(9):
+    x_row = []
+    for col in range(9):
+        x_r = conv1_row[row]
+        x_c = conv1_column[col]
+        x_box = conv1_box[row//3][col//3]
+        x_row.append(x_r)
+        x_row.append(x_c)
+        x_row.append(x_box)
+
+    x_refined[row] = x_row
+conv1_box = tf.reshape(conv1_box, [-1, 3 * 3 * 1])
 print(str(conv1_box.shape))
 print(str(conv1_row.shape))
 print(str(conv1_column.shape))
@@ -171,10 +181,14 @@ for i in range(num_steps):
 
 end_time = time.time()
 print("time elapsed : " + str(end_time - start_time))
+avg_cost = 0
 
-for i in range(10):
+for i in range(1000):
     b_x, b_y = test_batch()
 
     optimizer.run(feed_dict={x: b_x, y: b_y})
     cost1 = cost.eval(feed_dict={x:b_x, y:b_y})
-    print("cost test : " + str(cost1))
+    avg_cost = avg_cost + cost1
+
+    if i % 50 == 0:
+        print("cost test : " + str(cost1) +" avg cost "+str(avg_cost / i))

@@ -30,7 +30,7 @@ from Sudoku import SolvedSudoku
 #                        [False, True, False, False, False, False, True, False, False]]
 
 reducer = SolvedSudoku(2000)
-test_reducer = SolvedSudoku(1)
+test_reducer = SolvedSudoku(2000)
 
 nodes1 = 256
 nodes2 = 128

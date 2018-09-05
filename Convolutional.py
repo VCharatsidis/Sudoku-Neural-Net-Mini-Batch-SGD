@@ -24,7 +24,7 @@ from Sudoku import SolvedSudoku
 
 
 reducer = SolvedSudoku(2000)
-test_reducer = SolvedSudoku(1)
+test_reducer = SolvedSudoku(2000)
 numbers_to_predict = 10
 batch_size = 128
 
@@ -134,7 +134,7 @@ sess.run(tf.global_variables_initializer())
 import time
 
 num_steps = 500001
-display_every = 1000
+display_every = 5000
 
 #Start timer
 start_time = time.time()
@@ -152,9 +152,14 @@ for i in range(num_steps):
 end_time = time.time()
 print("time elapsed : " + str(end_time - start_time))
 
-for i in range(10):
+avg_cost = 0
+
+for i in range(1000):
     b_x, b_y = test_batch()
 
     optimizer.run(feed_dict={x: b_x, y: b_y})
     cost1 = cost.eval(feed_dict={x:b_x, y:b_y})
-    print("cost test : " + str(cost1))
+    avg_cost = avg_cost + cost1
+
+    if i % 50 == 0:
+        print("cost test : " + str(cost1) +" avg cost "+str(avg_cost / i))

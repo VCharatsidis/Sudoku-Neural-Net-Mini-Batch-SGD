@@ -24,7 +24,7 @@ from Sudoku import SolvedSudoku
 
 
 reducer = SolvedSudoku(2000)
-test_reducer = SolvedSudoku(2000)
+test_reducer = SolvedSudoku(1000)
 numbers_to_predict = 10
 batch_size = 128
 
@@ -97,7 +97,7 @@ def bias_variable(shape):
 
 #we have 3 different features, row column box
 num_features = 3
-num_filters = 32
+num_filters = 16
 #Box feature
 W_box = weight_variable([3, 30, 1, num_filters])
 b_box = bias_variable([num_filters])
@@ -125,14 +125,28 @@ print(str(conv1_column.shape))
 conv_a = tf.concat([conv1_box, conv1_row], 1)
 conv1 = tf.concat([conv_a, conv1_column], 1)
 
+conv1 = tf.reshape(conv1, [-1, 3, 9, num_filters])
 print(str(conv1.shape))
 
+#Conv layer 2
+W_conv2 = weight_variable([3, 3, num_filters , num_filters])
+b_conv2 = bias_variable([num_filters])
+
+conv2 = tf.nn.sigmoid(tf.nn.conv2d(conv1, W_conv2, strides=[1, 1, 1, 1], padding='SAME') + b_conv2)
+
+shape = conv2.get_shape().as_list()
+shape = shape[1] * shape[2] * shape[3]
+
+conv2 = tf.reshape(conv2, [-1, shape])
+
+print("shape "+ str(shape))
+
 # #Fully Connected Layer
-W_dense = weight_variable([3 * 3 * num_features * num_filters, 1024])
+W_dense = weight_variable([shape, 1024])
 b_dense = bias_variable([1024])
 
-conv1 = tf.reshape(conv1, [-1, 3 * 3 * num_features * num_filters])
-dense = tf.nn.sigmoid(tf.matmul(conv1, W_dense) + b_dense)
+
+dense = tf.nn.sigmoid(tf.matmul(conv2, W_dense) + b_dense)
 
 #Readout layer
 W_output = weight_variable(([1024, numbers_to_predict*10]))
@@ -150,7 +164,7 @@ sess.run(tf.global_variables_initializer())
 import time
 
 num_steps = 500001
-display_every = 1000
+display_every = 5000
 
 #Start timer
 start_time = time.time()
@@ -178,4 +192,4 @@ for i in range(1000):
     avg_cost = avg_cost + cost1
 
     if i % 50 == 0:
-        print("cost test : " + str(cost1) +" avg cost "+str(avg_cost / i))
+        print("cost test : " + str(cost1) +" avg cost "+str(avg_cost / (i+1)))
