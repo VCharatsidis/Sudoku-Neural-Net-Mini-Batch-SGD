@@ -1,30 +1,11 @@
+
 import tensorflow as tf
 import numpy as np
 from Sudoku import SolvedSudoku
 
-# hardestSudoku = [[8, 1, 2, 7, 5, 3, 6, 4, 9],
-#                  [9, 4, 3, 6, 8, 2, 1, 7, 5],
-#                  [6, 7, 5, 4, 9, 1, 2, 8, 3],
-#                  [1, 5, 4, 2, 3, 7, 8, 9, 6],
-#                  [3, 6, 9, 8, 4, 5, 7, 2, 1],
-#                  [2, 8, 7, 1, 6, 9, 5, 3, 4],
-#                  [5, 2, 1, 9, 7, 4, 3, 6, 8],
-#                  [4, 3, 8, 5, 2, 6, 9, 1, 7],
-#                  [7, 9, 6, 3, 1, 8, 4, 5, 2]]
-#
-# hardestSudoku_fixed = [[True, False, False, False, False, False, False, False, False],
-#                        [False, False, True, True, False, False, False, False, False],
-#                        [False, True, False, False, True, False, True, False, False],
-#                        [False, True, False, False, False, True, False, False, False],
-#                        [False, False, False, False, True, True, True, False, False],
-#                        [False, False, False, True, False, False, False, True, False],
-#                        [False, False, True, False, False, False, False, True, True],
-#                        [False, False, True, True, False, False, False, True, False],
-#                        [False, True, False, False, False, False, True, False, False]]
-
 
 reducer = SolvedSudoku(2000)
-test_reducer = SolvedSudoku(2000)
+test_reducer = SolvedSudoku(1000)
 numbers_to_predict = 10
 batch_size = 128
 
@@ -116,54 +97,73 @@ conv1_column = tf.nn.sigmoid(tf.nn.conv2d(x_board, W_column, strides=[1, 9, 10, 
 
 conv1_row = tf.reshape(conv1_row, [-1, 3 * 3 * 1])
 conv1_column = tf.reshape(conv1_column, [-1, 3 * 3 * 1])
+conv1_box = tf.reshape(conv1_box, [-1, 3 * 3 * 1])
 
-x_refined = tf.Variable([9, 27, num_filters])
+x_refined = tf.get_variable("x_ref", [3 , num_filters])
 
 for row in range(9):
-    x_row = []
     for col in range(9):
-        x_r = conv1_row[row]
-        x_c = conv1_column[col]
-        x_box = conv1_box[row//3][col//3]
-        x_row.append(x_r)
-        x_row.append(x_c)
-        x_row.append(x_box)
+        extracted_row = tf.slice(conv1_row, [0, row], [num_filters, 1])
+        extracted_col = tf.slice(conv1_column, [0, col], [num_filters, 1])
 
-    x_refined[row] = x_row
-conv1_box = tf.reshape(conv1_box, [-1, 3 * 3 * 1])
-print(str(conv1_box.shape))
-print(str(conv1_row.shape))
-print(str(conv1_column.shape))
+        row_col = tf.concat([extracted_row, extracted_col], 0)
+        box = (row // 3) * 3 + col // 3
+        print("row_col " + str(row_col.shape))
+        extracted_box = tf.slice(conv1_box, [0, box], [num_filters, 1])
 
-conv_a = tf.concat([conv1_box, conv1_row], 1)
-conv1 = tf.concat([conv_a, conv1_column], 1)
+        shape_r = extracted_box.get_shape().as_list()
+        #print(" shape row 0 : " + str(shape_r[0]) + " shape row 1 : " + str(shape_r[1]))
 
-print(str(conv1.shape))
+        row_col_box = tf.concat([row_col, extracted_box], 0)
+        print("row_col_box " + str(row_col_box.shape))
+        row_col_box = tf.reshape(row_col_box, [3, num_filters])
+        print("row_col_box reshaped " + str(row_col_box.shape))
+
+        x_refined = tf.concat([x_refined, row_col_box], 0)
+
+print("just made "+str(x_refined.shape))
+
+# Layer 2
+W_conv2 = weight_variable([1, 3, num_filters, 16])
+b_conv2 = bias_variable([16])
+
+x_refined = tf.reshape(x_refined, [-1, 1, 246, num_filters])
+print("x_refined reshaped "+str(x_refined.shape))
+conv2 = tf.nn.sigmoid(tf.nn.conv2d(x_refined, W_conv2, strides=[1, 1, 3, 1], padding='SAME') + b_conv2)
+
+shape = conv2.get_shape().as_list()
+shape = shape[1] * shape[2] * shape[3]
+
+conv2 = tf.reshape(conv2, [-1, shape])
+
+print("shape "+ str(shape))
 
 # #Fully Connected Layer
-W_dense = weight_variable([3 * 3 * num_features * num_filters, 1024])
+W_dense = weight_variable([shape, 1024])
 b_dense = bias_variable([1024])
+dense = tf.nn.sigmoid(tf.matmul(conv2, W_dense) + b_dense)
 
-conv1 = tf.reshape(conv1, [-1, 3 * 3 * num_features * num_filters])
-dense = tf.nn.sigmoid(tf.matmul(conv1, W_dense) + b_dense)
+# dense 2
+W_dense2 = weight_variable([1024, 512])
+b_dense2 = bias_variable([512])
+dense2 = tf.nn.sigmoid(tf.matmul(dense, W_dense2) + b_dense2)
 
 #Readout layer
-W_output = weight_variable(([1024, numbers_to_predict*10]))
-b_output = bias_variable([numbers_to_predict*10])
-
-y_conv = tf.matmul(dense, W_output) + b_output
+W_output = weight_variable(([512, numbers_to_predict * 10]))
+b_output = bias_variable([numbers_to_predict * 10])
+y_conv = tf.matmul(dense2, W_output) + b_output
 
 #Loss
 cost = tf.losses.mean_squared_error(labels=y, predictions=y_conv)
 #Optimizer
-optimizer = tf.train.AdamOptimizer().minimize(cost)
+optimizer = tf.train.AdamOptimizer(0.002).minimize(cost)
 
 sess.run(tf.global_variables_initializer())
 
 import time
 
 num_steps = 500001
-display_every = 1000
+display_every = 10000
 
 #Start timer
 start_time = time.time()
