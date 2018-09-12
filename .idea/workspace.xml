@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a148380d-026d-449b-944d-2dd3b9c2ac10" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/venv/Convolutional.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Sudoku.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/nn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Conv2.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Conv2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/StableFilters.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/StableFilters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/inception.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/inception.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,23 +25,23 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="27" />
+          <entry key="py" value="28" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="26" />
+          <entry key="Python" value="27" />
           <entry key="Scratch" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="9585" />
+          <entry key="py" value="10056" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="9585" />
+          <entry key="Python" value="10056" />
         </counts>
       </usages-collector>
     </session>
@@ -62,7 +60,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/Convolutional.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="545">
+            <state relative-caret-position="1055">
               <caret line="164" column="74" selection-start-line="164" selection-start-column="74" selection-end-line="164" selection-end-column="74" />
             </state>
           </provider>
@@ -80,8 +78,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/venv/StableFilters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="107">
-              <caret line="115" lean-forward="true" selection-start-line="115" selection-end-line="115" />
+            <state relative-caret-position="51">
+              <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -89,8 +87,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/Conv2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="953">
-              <caret line="146" column="17" selection-start-line="146" selection-start-column="17" selection-end-line="146" selection-end-column="17" />
+            <state relative-caret-position="374">
+              <caret line="93" selection-start-line="93" selection-end-line="93" selection-end-column="97" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -101,8 +99,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/inception.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2396">
-              <caret line="25" column="25" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
+            <state relative-caret-position="187">
+              <caret line="116" selection-start-line="116" selection-end-line="118" selection-end-column="64" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -131,8 +129,6 @@
         <option value="$PROJECT_DIR$/inception.py" />
         <option value="$PROJECT_DIR$/nn.py" />
         <option value="$PROJECT_DIR$/Convolutional.py" />
-        <option value="$PROJECT_DIR$/venv/Conv2.py" />
-        <option value="$PROJECT_DIR$/venv/inception.py" />
         <option value="$PROJECT_DIR$/StableFilters.py" />
         <option value="$PROJECT_DIR$/SF.py" />
         <option value="$PROJECT_DIR$/venv/Scripts/StableFilters.py" />
@@ -140,6 +136,8 @@
         <option value="$PROJECT_DIR$/venv/nn.py" />
         <option value="$PROJECT_DIR$/venv/Convolutional.py" />
         <option value="$PROJECT_DIR$/venv/Sudoku.py" />
+        <option value="$PROJECT_DIR$/venv/Conv2.py" />
+        <option value="$PROJECT_DIR$/venv/inception.py" />
         <option value="$PROJECT_DIR$/venv/StableFilters.py" />
       </list>
     </option>
@@ -196,6 +194,27 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.StableFilters">
+    <configuration name="Conv2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Sudoku" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/venv" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/venv/Conv2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="StableFilters" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Sudoku" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -238,21 +257,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest in SF.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="Sudoku" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/SF.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <configuration name="pytest in StableFilters.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="Sudoku" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -286,17 +290,17 @@
     <list>
       <item itemvalue="Python.inception" />
       <item itemvalue="Python tests.pytest in StableFilters.py" />
-      <item itemvalue="Python tests.pytest in SF.py" />
       <item itemvalue="Python.StableFilters" />
       <item itemvalue="Python tests.pytest in nn.py" />
+      <item itemvalue="Python.Conv2" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.StableFilters" />
+        <item itemvalue="Python.inception" />
+        <item itemvalue="Python.Conv2" />
         <item itemvalue="Python tests.pytest in nn.py" />
         <item itemvalue="Python tests.pytest in StableFilters.py" />
-        <item itemvalue="Python.inception" />
-        <item itemvalue="Python tests.pytest in SF.py" />
       </list>
     </recent_temporary>
   </component>
@@ -358,7 +362,7 @@
       <window_info anchor="bottom" id="Message" order="3" />
       <window_info anchor="bottom" id="Find" order="4" />
       <window_info anchor="bottom" id="Version Control" order="5" />
-      <window_info anchor="bottom" id="Run" order="6" sideWeight="0.49935567" visible="true" weight="0.923445" />
+      <window_info active="true" anchor="bottom" id="Run" order="6" sideWeight="0.49935567" visible="true" weight="0.923445" />
       <window_info anchor="bottom" id="Debug" order="7" weight="0.399361" />
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
@@ -367,6 +371,25 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Favorites" order="0" side_tool="true" />
+      <window_info content_ui="combo" id="Project" order="1" weight="0.1392833" />
+      <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="0" weight="0.32898173" />
+      <window_info anchor="bottom" id="Event Log" order="1" sideWeight="0.5006443" side_tool="true" weight="0.9255875" />
+      <window_info anchor="bottom" id="Python Console" order="2" weight="0.32898173" />
+      <window_info anchor="bottom" id="Message" order="3" />
+      <window_info anchor="bottom" id="Find" order="4" />
+      <window_info anchor="bottom" id="Version Control" order="5" />
+      <window_info anchor="bottom" id="Run" order="6" sideWeight="0.49935567" visible="true" weight="0.923445" />
+      <window_info anchor="bottom" id="Debug" order="7" weight="0.399361" />
+      <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="10" weight="0.32898173" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -400,16 +423,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Conv2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="953">
-          <caret line="146" column="17" selection-start-line="146" selection-start-column="17" selection-end-line="146" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SF.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="545">
@@ -426,16 +439,6 @@
           <caret line="194" selection-start-line="194" selection-end-line="194" />
           <folding>
             <element signature="e#1#24#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/inception.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2396">
-          <caret line="25" column="25" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -464,20 +467,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Convolutional.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="545">
-          <caret line="164" column="74" selection-start-line="164" selection-start-column="74" selection-end-line="164" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Sudoku.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="545">
-          <caret line="88" selection-start-line="88" selection-end-line="88" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/StableFilters.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="245">
@@ -492,10 +481,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Convolutional.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1055">
+          <caret line="164" column="74" selection-start-line="164" selection-start-column="74" selection-end-line="164" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Sudoku.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="545">
+          <caret line="88" selection-start-line="88" selection-end-line="88" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/inception.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="116" selection-start-line="116" selection-end-line="118" selection-end-column="64" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Conv2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="93" selection-start-line="93" selection-end-line="93" selection-end-column="97" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/venv/StableFilters.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="107">
-          <caret line="115" lean-forward="true" selection-start-line="115" selection-end-line="115" />
+        <state relative-caret-position="51">
+          <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
         </state>
       </provider>
     </entry>

@@ -22,9 +22,9 @@ from Sudoku import SolvedSudoku
 #                        [False, False, True, True, False, False, False, True, False],
 #                        [False, True, False, False, False, False, True, False, False]]
 
-
-reducer = SolvedSudoku(2000)
-test_reducer = SolvedSudoku(1000)
+num_sudokus = 2000
+reducer = SolvedSudoku(num_sudokus)
+test_reducer = SolvedSudoku(num_sudokus//2)
 numbers_to_predict = 10
 batch_size = 128
 
@@ -110,13 +110,13 @@ b_row = bias_variable([num_filters])
 W_column = weight_variable(([9, 10, 1, num_filters]))
 b_column = bias_variable([num_filters])
 
-conv1_box = tf.nn.sigmoid(tf.nn.conv2d(x_board, W_box, strides=[1, 3, 30, 1], padding='SAME') + b_box)
-conv1_row = tf.nn.sigmoid(tf.nn.conv2d(x_board, W_row, strides=[1, 1, 90, 1], padding='SAME') + b_row)
-conv1_column = tf.nn.sigmoid(tf.nn.conv2d(x_board, W_column, strides=[1, 9, 10, 1], padding='SAME') + b_column)
+conv1_box = tf.nn.sigmoid(tf.nn.conv2d(x_board, W_box, strides=[1, 3, 30, 1], padding='VALID') + b_box)
+conv1_row = tf.nn.sigmoid(tf.nn.conv2d(x_board, W_row, strides=[1, 1, 90, 1], padding='VALID') + b_row)
+conv1_column = tf.nn.sigmoid(tf.nn.conv2d(x_board, W_column, strides=[1, 9, 10, 1], padding='VALID') + b_column)
 
-conv1_box = tf.reshape(conv1_box, [-1, 3 * 3 * 1])
-conv1_row = tf.reshape(conv1_row, [-1, 3 * 3 * 1])
-conv1_column = tf.reshape(conv1_column, [-1, 3 * 3 * 1])
+conv1_box = tf.reshape(conv1_box, [-1, 1, 9, num_filters])
+conv1_row = tf.reshape(conv1_row, [-1, 1, 9, num_filters])
+conv1_column = tf.reshape(conv1_column, [-1, 1, 9, num_filters])
 
 print(str(conv1_box.shape))
 print(str(conv1_row.shape))
@@ -132,7 +132,7 @@ print(str(conv1.shape))
 W_conv2 = weight_variable([3, 3, num_filters , num_filters])
 b_conv2 = bias_variable([num_filters])
 
-conv2 = tf.nn.sigmoid(tf.nn.conv2d(conv1, W_conv2, strides=[1, 1, 1, 1], padding='SAME') + b_conv2)
+conv2 = tf.nn.sigmoid(tf.nn.conv2d(conv1, W_conv2, strides=[1, 1, 1, 1], padding='VALID') + b_conv2)
 
 shape = conv2.get_shape().as_list()
 shape = shape[1] * shape[2] * shape[3]

@@ -2,8 +2,8 @@ import tensorflow as tf
 import numpy as np
 from Sudoku import SolvedSudoku
 
-reducer = SolvedSudoku(2000)
-test_reducer = SolvedSudoku(2000)
+reducer = SolvedSudoku(1)
+test_reducer = SolvedSudoku(1)
 numbers_to_predict = 10
 batch_size = 128
 
@@ -76,44 +76,26 @@ def bias_variable(shape):
 
 #Define layers in the NN
 
-# #Box filter
-# W_box = weight_variable([3, 30, 1, 64])
-# b_box = bias_variable([64])
-#
-# # #Row filter
-# # W_row = weight_variable([1, 90, 1, 1])
-# # b_row = bias_variable([1])
-# #
-# # #Column filter
-# # W_column = weight_variable(([90, 1, 1, 1]))
-# # b_column = bias_variable([1])
-#
-# conv1_box = tf.nn.relu(tf.nn.conv2d(x_board, W_box, strides=[1, 3, 30, 1], padding='SAME') + b_box)
-# # conv1_row = tf.nn.relu(tf.nn.conv2d(x_board, W_row, strides=[1, 1, 9, 1], padding='SAME') + b_row)
-# # conv1_column = tf.nn.relu(tf.nn.conv2d(x_board, W_column, strides=[1, 9, 1, 1], padding='SAME') + b_column)
-# #
-# # conv1_box = tf.reshape(conv1_box, [-1, 3 * 3 * 1])
-# # conv1_row = tf.reshape(conv1_row, [-1, 3 * 3 * 1])
-# # conv1_column = tf.reshape(conv1_column, [-1, 3 * 3 * 1])
-#
-# conv1 = conv1_box
-# w_1x1 = weight_variable([1, 1, 64, 32])
-# b_1x1 = bias_variable([32])
-# conv1x1 = tf.nn.relu(tf.nn.conv2d(conv1, w_1x1, strides=[1, 1, 1, 1], padding='SAME') + b_1x1)
-
 #Layer 1
 W_conv1 = weight_variable([3, 10, 1, 8])
 b_conv1 = bias_variable([8])
 
-conv1 = tf.nn.relu(tf.nn.conv2d(x_board, W_conv1, strides=[1, 1, 10, 1], padding='SAME') + b_conv1)
+conv1 = tf.nn.sigmoid(tf.nn.conv2d(x_board, W_conv1, strides=[1, 1, 10, 1], padding='SAME') + b_conv1)
 #pool1 = max_pool_2x2(conv1)
 
 #Layer 2
 W_conv2 = weight_variable([1, 3, 8, 16])
 b_conv2 = bias_variable([16])
 
-conv2 = tf.nn.relu(tf.nn.conv2d(conv1, W_conv2, strides=[1, 1, 1, 1], padding='SAME') + b_conv2)
+conv2 = tf.nn.sigmoid(tf.nn.conv2d(conv1, W_conv2, strides=[1, 1, 1, 1], padding='SAME') + b_conv2)
 #pool2 = tf.nn.max_pool(conv2, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
+
+shape = conv2.get_shape().as_list()
+print("shape[1] : "+ str(shape[1]) + " shape[2] : "+ str(shape[2])+" shape[3] : " +str(shape[3]))
+shape = shape[1] * shape[2] * shape[3]
+
+conv2 = tf.reshape(conv2, [-1, shape])
+
 
 #Fully Connected Layer
 W_dense = weight_variable([9 * 9 * 16, 1024])
