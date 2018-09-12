@@ -123,11 +123,13 @@ for row in range(9):
 
 print("just made "+str(x_refined.shape))
 
+x_refined = tf.slice(x_refined, [3, 0], [243, num_filters])
 # Layer 2
-W_conv2 = weight_variable([1, 3, num_filters, 16])
-b_conv2 = bias_variable([16])
+W_conv2 = weight_variable([1, 3, num_filters, num_filters])
+b_conv2 = bias_variable([num_filters])
 
-x_refined = tf.reshape(x_refined, [-1, 1, 246, num_filters])
+x_refined = tf.reshape(x_refined, [-1, 1, 243, num_filters])
+
 print("x_refined reshaped "+str(x_refined.shape))
 conv2 = tf.nn.sigmoid(tf.nn.conv2d(x_refined, W_conv2, strides=[1, 1, 3, 1], padding='SAME') + b_conv2)
 
